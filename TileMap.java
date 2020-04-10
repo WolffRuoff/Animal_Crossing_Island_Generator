@@ -1,6 +1,12 @@
 import java.awt.Image;
 import java.awt.image.*;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import java.awt.Color;
+import java.awt.Graphics;
 //The 2d array making up our island
 public class TileMap {
 	private int width;
@@ -31,15 +37,23 @@ public class TileMap {
 	public void saveMap() {
 		int mapW = width * imgW;
 		int mapH = height * imgH;
-		
+		int x = 0;
+		int y = 0;
 		BufferedImage island = new BufferedImage(mapW,mapH, BufferedImage.TYPE_INT_RGB);
+		Graphics g = island.getGraphics();
 		for(int i = 0; i < mapW; i = i + imgW) {
 			for(int j = 0; j < mapH; j = j + imgH) {
-				
+				g.drawImage(map[x][y], i, j, null);
+				x++;
 			}
+			y++;
 		}
-		
-		
-		
+		File f = new File(".\\Images\\Island.png");
+	     try {
+			ImageIO.write(island, "png", f);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
+		
 }
