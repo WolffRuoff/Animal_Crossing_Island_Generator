@@ -1,10 +1,4 @@
-import java.awt.Image;
 import java.awt.image.*;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 import java.awt.Color;
 import java.awt.Graphics;
 //The 2d array making up our island
@@ -13,12 +7,12 @@ public class TileMap {
 	private int height;
 	private int imgW = 20;
 	private int imgH = 20;
-	private Image[][] map;
+	private BufferedImage[][] map;
 	
 	public TileMap(int w, int h) {
 		height = h;
 		width = w;
-		map = new Image[width][height];
+		map = new BufferedImage[width][height];
 	}
 	
 	public int getWidth() {
@@ -27,10 +21,10 @@ public class TileMap {
 	public int getHeight() {
 		return height;
 	}
-	public void setTile(int x, int y, Image img) {
+	public void setTile(int x, int y, BufferedImage img) {
 		map[x][y] = img;
 	}
-	public Image getTile(int x, int y) {
+	public BufferedImage getTile(int x, int y) {
 		return map[x][y];
 	}
 	
@@ -44,16 +38,13 @@ public class TileMap {
 		for(int i = 0; i < mapW; i = i + imgW) {
 			for(int j = 0; j < mapH; j = j + imgH) {
 				g.drawImage(map[x][y], i, j, null);
-				x++;
+				System.out.println(j);
+				y++;
 			}
-			y++;
+			y = 0;
+			x++;
 		}
-		File f = new File(".\\Images\\Island.png");
-	     try {
-			ImageIO.write(island, "png", f);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Utility.SaveImage(island, ".\\Images\\Island.png");
 	}
 		
 }
