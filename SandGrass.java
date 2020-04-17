@@ -16,7 +16,6 @@ public class SandGrass {
 			if (perlin < -0.2) {
 				size = size + 1;
 			}
-			
 			else if (perlin > 0.2) {
 				size = size - 1;
 			}
@@ -29,7 +28,6 @@ public class SandGrass {
 				mappy.setTile(x, y, tile);
 			}
 		}
-		
 		size = 10;		
 	}
 	
@@ -41,7 +39,6 @@ public class SandGrass {
 			if (perlin < -0.2) {
 				size = size + 1;
 			}
-			
 			else if (perlin > 0.2) {
 				size = size - 1;
 			}
@@ -53,7 +50,8 @@ public class SandGrass {
 			for (int x = x1; x < size + x2; x++) {
 				mappy.setTile(x, y, tile);
 			}
-		}		
+		}	
+		size = 10;		
 	}
 	
 	public void west(int y1, int y2, int x1, int x2, TileMap mappy, BufferedImage tile) {
@@ -64,8 +62,7 @@ public class SandGrass {
 			if (perlin < -0.2) {
 				size = size + 1;
 			}
-						
-			if (perlin > 0.2) {
+			else if (perlin > 0.2) {
 				size = size - 1;
 			}
 			
@@ -76,11 +73,12 @@ public class SandGrass {
 			for (int x = size + x1; x < x2; x++) {
 				mappy.setTile(x, y, tile);
 			}
-		}		
+		}	
+		size = 10;		
 	}
 	
 	public void fill(int x1, int x2, int y1, int y2, TileMap mappy, BufferedImage tile) {
-		for (int x = x2; x < x2; x++) {
+		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < (mappy.getHeight() - y2); y++) {
 				mappy.setTile(x, y, tile);
 			}

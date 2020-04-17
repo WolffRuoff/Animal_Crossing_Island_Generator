@@ -19,7 +19,7 @@ public class Gwen {
 		
 		// sand layer
 		BufferedImage sand = Utility.LoadImage(".\\Resources\\Sand.png");
-		SandGrass.south(13, 13, 20, 20, mappy, sand);
+		SandGrass.south(13, 13, 90, 90, mappy, sand);
 		SandGrass.east(12, 13, 90, 90, mappy, sand);
 		SandGrass.west(12, 13, 3, 20, mappy, sand);
 		SandGrass.fill(20, 90, 12, 20, mappy, sand);
