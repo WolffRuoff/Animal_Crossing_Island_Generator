@@ -41,7 +41,7 @@ public class TileMap {
 		for(int i = 0; i < mapW; i = i + imgW) {
 			for(int j = 0; j < mapH; j = j + imgH) {
 				g.drawImage(map[x][y], i, j, null);
-				System.out.println(j);
+				//System.out.println(j);
 				y++;
 			}
 			y = 0;

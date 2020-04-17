@@ -64,4 +64,21 @@ class Utility
 		 return ostart + (ostop - ostart) * ((value - istart) / (istop - istart));
 	 }
 	 
+	 public static boolean compareBufferedImages(BufferedImage bufferedImage1, BufferedImage bufferedImage2) {
+
+		 if (bufferedImage1.getWidth() == bufferedImage2.getWidth() && bufferedImage1.getHeight() == bufferedImage2.getHeight()) {
+			 for (int x = 0; x < bufferedImage1.getWidth(); x++) {
+				 for (int y = 0; y < bufferedImage1.getHeight(); y++) {
+					 if (bufferedImage1.getRGB(x, y) != bufferedImage2.getRGB(x, y)) {
+						 return false;
+					 }
+				 }
+			 }
+		 }
+		 else {
+			 return false;
+		 }
+		 return true;
+		 }
+	 
 }

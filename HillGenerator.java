@@ -55,6 +55,7 @@ public class HillGenerator {
 		for(int i = 0; i < iterations; i++) {
 			SmoothMap();
 		}
+		DrawToMap();
 		return mappy;
 	}
 	
@@ -70,17 +71,21 @@ public class HillGenerator {
 		 */
 		for(int i = 0; i < hillW; i++) {
 			for(int j = 0; j < hillH; j++) {
-				if(mappy.getTile(i, j).equals(grass)) { //Make sure the tiles lower
-					if(!mappy.getTile(i-1, j).equals(grass) && !mappy.getTile(i-1, j).equals(hillGrass)) {
+				if(Utility.compareBufferedImages(mappy.getTile(i, j), grass)) { //Make sure the tiles lower
+				//if(mappy.getTile(i, j).equals(grass)) { //Make sure the tiles lower
+					if(!Utility.compareBufferedImages(mappy.getTile(i-1, j), grass) && !Utility.compareBufferedImages(mappy.getTile(i-1, j), hillGrass)) {
 						hillNumbers[i][j] = 1;
 					}
-					else if(!mappy.getTile(i+1, j).equals(grass) && !mappy.getTile(i+1, j).equals(hillGrass)) {
+					else if(!Utility.compareBufferedImages(mappy.getTile(i+1, j), grass) && !Utility.compareBufferedImages(mappy.getTile(i+1, j), hillGrass)) {
 						hillNumbers[i][j] = 1;
 					}
-					else if(!mappy.getTile(i, j-1).equals(grass) && !mappy.getTile(i, j-1).equals(hillGrass)) {
+					else if(!Utility.compareBufferedImages(mappy.getTile(i, j-1), grass) && !Utility.compareBufferedImages(mappy.getTile(i, j-1), hillGrass)) {
 						hillNumbers[i][j] = 1;
 					}
-					else if(!mappy.getTile(i, j+1).equals(grass) && !mappy.getTile(i, j+1).equals(hillGrass)) {
+					else if(j+3 >= hillH) {
+						hillNumbers[i][j] = 1;
+					}
+					else if(!Utility.compareBufferedImages(mappy.getTile(i, j+1), grass) && !Utility.compareBufferedImages(mappy.getTile(i, j+1), hillGrass)) {
 						hillNumbers[i][j] = 1;
 					}
 					else {
@@ -89,11 +94,13 @@ public class HillGenerator {
 						}
 						else {
 							hillNumbers[i][j] = 0;
+							//System.out.println("Success");
 						}
 					}
 				}
 				else {
 					hillNumbers[i][j] = 2; //Ignore these
+					//System.out.println("failure");
 				}
 			}
 		}
@@ -102,12 +109,29 @@ public class HillGenerator {
 	private void SmoothMap() {
 		for(int i = 0; i < hillW; i++) {
 			for(int j = 0; j < hillH; j++) {
-				int wallTiles = GetSurroundingCount(i,j);
+				if(Utility.compareBufferedImages(mappy.getTile(i, j), grass) || Utility.compareBufferedImages(mappy.getTile(i, j), hillGrass)) { //Make sure the tiles lower
+				//if(mappy.getTile(i, j).equals(grass)) { //Make sure the tiles lower
+					if(!Utility.compareBufferedImages(mappy.getTile(i-1, j), grass) && !Utility.compareBufferedImages(mappy.getTile(i-1, j), hillGrass)) {
+						hillNumbers[i][j] = 1;
+					}
+					else if(!Utility.compareBufferedImages(mappy.getTile(i+1, j), grass) && !Utility.compareBufferedImages(mappy.getTile(i+1, j), hillGrass)) {
+						hillNumbers[i][j] = 1;
+					}
+					else if(!Utility.compareBufferedImages(mappy.getTile(i, j-1), grass) && !Utility.compareBufferedImages(mappy.getTile(i, j-1), hillGrass)) {
+						hillNumbers[i][j] = 1;
+					}
+					else if(!Utility.compareBufferedImages(mappy.getTile(i, j+1), grass) && !Utility.compareBufferedImages(mappy.getTile(i, j+1), hillGrass)) {
+						hillNumbers[i][j] = 1;
+					}
+					else {
+						int wallTiles = GetSurroundingCount(i,j);
 				
-				if(wallTiles >= 4)
-					hillNumbers[i][j] = 0;
-				else if(wallTiles < 4)
-					hillNumbers[i][j] = 1;
+						if(wallTiles > 4)
+							hillNumbers[i][j] = 0;
+						else if(wallTiles < 4)
+							hillNumbers[i][j] = 1;
+					}
+				}
 			}
 		}
 	}
@@ -116,8 +140,10 @@ public class HillGenerator {
 		int count = 0;
 		for(int nx = gridX - 1; nx <= gridX + 1; nx++) {
 			for(int ny = gridY - 1; ny <= gridY + 1; ny++) {
-				if(nx >= 0 && nx < hillH && ny >= 0 && ny < hillW) {
+				if(nx >= 0 && nx < hillW && ny >= 0 && ny < hillH) {
 					if(nx != gridX || ny != gridY) {
+						//System.out.println(nx);
+						//System.out.println(ny);
 						if(hillNumbers[nx][ny] == 0)
 							count++;
 					}
