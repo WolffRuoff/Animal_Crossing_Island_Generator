@@ -18,12 +18,15 @@ public class TileMap {
 	public int getWidth() {
 		return width;
 	}
+	
 	public int getHeight() {
 		return height;
 	}
+	
 	public void setTile(int x, int y, BufferedImage img) {
 		map[x][y] = img;
 	}
+	
 	public BufferedImage getTile(int x, int y) {
 		return map[x][y];
 	}
@@ -45,6 +48,5 @@ public class TileMap {
 			x++;
 		}
 		Utility.SaveImage(island, ".\\Images\\Island.png");
-	}
-		
+	}	
 }
