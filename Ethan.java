@@ -29,11 +29,13 @@ public class Ethan {
 		SandGrass.fill(40, 70, 12, 30, mappy, groundGrass);
 
 		// Hills Layer 1
-		HillGenerator hilly = new HillGenerator(mappy, 1, 45);
+		// 0 Random fill = everything hills
+		// 100 Random fill = everything grass
+		HillGenerator hilly = new HillGenerator(mappy, 1, 62);
 		mappy = hilly.CreateHills();
 		
 		// Hills Layer 2
-		HillGenerator hilly2 = new HillGenerator(mappy, 2, 50);
+		HillGenerator hilly2 = new HillGenerator(mappy, 2, 61);
 		mappy = hilly2.CreateHills();
 		mappy.saveMap();
 	
