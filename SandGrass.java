@@ -9,7 +9,7 @@ public class SandGrass {
 	Random rand = new Random();
 	
 	public void south(int x1, int x2, int y1, int y2, TileMap mappy, BufferedImage tile) {
-		int drop = 0;
+		int drop = 0; 
 		for (int x = x1; x < (mappy.getWidth() - x2); x++) {
 			random = rand.nextDouble();
 			perlin = PerlinNoise.noise(x, random);
