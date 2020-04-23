@@ -9,19 +9,31 @@ public class SandGrass {
 	Random rand = new Random();
 	
 	public void south(int x1, int x2, int y1, int y2, TileMap mappy, BufferedImage tile) {
+		int drop = 0;
 		for (int x = x1; x < (mappy.getWidth() - x2); x++) {
 			random = rand.nextDouble();
 			perlin = PerlinNoise.noise(x, random);
+			System.out.println(perlin);
 			
-			if (perlin < -0.2) {
-				size = size + 1;
+			if (drop == 1) {
+				if (perlin < -0.3) {
+					size = size + 1;
+					drop = 0;
+				}	
 			}
-			else if (perlin > 0.2) {
-				size = size - 1;
+			else if (drop == 0) {
+				if (perlin < -0.3) {
+					size = size + 1;
+				}
+				else if (perlin > 0.3) {
+					size = size - 1;
+					drop++;
+				}
 			}
 			
-			if (size > 13) {
+			if (size > 13 && drop == 0) {
 				size = size - 1;
+				drop++;
 			}
 			
 			for (int y = y1; y < size + y2; y++) {
