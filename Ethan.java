@@ -35,7 +35,7 @@ public class Ethan {
 		mappy = hilly.CreateHills();
 		
 		// Hills Layer 2
-		HillGenerator hilly2 = new HillGenerator(mappy, 2, 61);
+		HillGenerator hilly2 = new HillGenerator(mappy, 2, 60);
 		mappy = hilly2.CreateHills();
 		mappy.saveMap();
 	
