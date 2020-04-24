@@ -1,5 +1,5 @@
 import java.awt.image.*;
-import java.awt.Color;
+import java.io.File;
 import java.awt.Graphics;
 //The 2d array making up our island
 public class TileMap {
@@ -47,6 +47,6 @@ public class TileMap {
 			y = 0;
 			x++;
 		}
-		Utility.SaveImage(island, ".\\Images\\Island.png");
+		Utility.SaveImage(island, "."+ File.separator + File.separator + "Images" + File.separator + File.separator + "Island.png");
 	}	
 }

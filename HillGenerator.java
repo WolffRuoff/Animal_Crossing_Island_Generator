@@ -1,5 +1,6 @@
 import java.util.Random;
 import java.awt.image.*;
+import java.io.File;
 import java.util.*;
 public class HillGenerator {
 	private TileMap mappy;
@@ -28,12 +29,12 @@ public class HillGenerator {
 		fillPercent = fp;
 		layer = lay;
 		if(layer==1) {
-			grass = Utility.LoadImage(".\\Resources\\GroundGrass.png");
+			grass = Utility.LoadImage("."+ File.separator + File.separator + "Resources" + File.separator + File.separator + "GroundGrass.png");
 			hillGrass = Utility.LoadImage(".\\Resources\\HillGrass1.png");
 		}
 		else {
-			grass = Utility.LoadImage(".\\Resources\\HillGrass1.png");
-			hillGrass = Utility.LoadImage(".\\Resources\\HillGrass2.png");
+			grass = Utility.LoadImage("."+ File.separator + File.separator + "Resources" + File.separator + File.separator + "HillGrass1.png");
+			hillGrass = Utility.LoadImage("."+ File.separator + File.separator + "Resources" + File.separator + File.separator + "HillGrass2.png");
 		}
 	}
 	public HillGenerator(TileMap m, int lay, int fp){
@@ -45,14 +46,14 @@ public class HillGenerator {
 		fillPercent = fp;
 		layer = lay;
 		if(layer==1) {
-			ground = Utility.LoadImage(".\\Resources\\GroundGrass.png");
-			grass = Utility.LoadImage(".\\Resources\\GroundGrass.png");
-			hillGrass = Utility.LoadImage(".\\Resources\\HillGrass1.png");
+			ground = Utility.LoadImage("."+ File.separator + File.separator + "Resources" + File.separator + File.separator + "GroundGrass.png");
+			grass = Utility.LoadImage("."+ File.separator + File.separator + "Resources" + File.separator + File.separator + "GroundGrass.png");
+			hillGrass = Utility.LoadImage("."+ File.separator + File.separator + "Resources" + File.separator + File.separator + "HillGrass1.png");
 		}
 		else {
-			ground = Utility.LoadImage(".\\Resources\\GroundGrass.png");
-			grass = Utility.LoadImage(".\\Resources\\HillGrass1.png");
-			hillGrass = Utility.LoadImage(".\\Resources\\HillGrass2.png");
+			ground = Utility.LoadImage("."+ File.separator + File.separator + "Resources" + File.separator + File.separator + "GroundGrass.png");
+			grass = Utility.LoadImage("."+ File.separator + File.separator + "Resources" + File.separator + File.separator + "HillGrass1.png");
+			hillGrass = Utility.LoadImage("."+ File.separator + File.separator + "Resources" + File.separator + File.separator + "HillGrass2.png");
 		}
 	}
 	
