@@ -37,8 +37,12 @@ public class Ethan {
 		// Hills Layer 2
 		HillGenerator hilly2 = new HillGenerator(mappy, 2, 60);
 		mappy = hilly2.CreateHills();
-		mappy.saveMap();
+		//mappy.saveMap();
 	
+		WaterDrawer wD = new WaterDrawer(mappy);
+		mappy = wD.DrawMouthS();
+		mappy = wD.DrawMouthE();
+		mappy.saveMap();
 	}
 
 }
