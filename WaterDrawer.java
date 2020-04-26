@@ -19,8 +19,25 @@ public class WaterDrawer {
 		mappy = m;
 	}
 	
-	public TileMap DrawMouthS() {
-		int mouthMiddle = ran.nextInt(mappy.getWidth()/3) + mappy.getWidth()/3;
+	public void DrawMouths() {
+		int mouthMiddle1 = ran.nextInt(mappy.getWidth()/3) + mappy.getWidth()/3;
+		DrawMouthS(mouthMiddle1);
+		
+		int mouth2 = ran.nextInt(3);
+		if(mouth2==0)
+			DrawMouthE();
+		else if(mouth2==1)
+			DrawMouthW();
+		else {
+			int mouthMiddle2 = ran.nextInt(mappy.getWidth()/3) + mappy.getWidth()/3;
+			while(Math.abs(mouthMiddle1 - mouthMiddle2) < mappy.getWidth()/4) {
+				mouthMiddle2 = ran.nextInt(mappy.getWidth()/3) + mappy.getWidth()/3;
+			}
+			DrawMouthS(mouthMiddle2);
+		}
+	}
+	public TileMap DrawMouthS(int mouthMiddle) {
+		//mouthMiddle = ran.nextInt(mappy.getWidth()/3) + mappy.getWidth()/3;
 		// |||X||||
 		int startY = mappy.getHeight()-1;
 		while(!Utility.compareBufferedImages(mappy.getTile(mouthMiddle, startY), sand)) {
@@ -82,9 +99,9 @@ public class WaterDrawer {
 				mappy.setTile(x, y2, water);
 				x--;
 			}
-			System.out.println("y1 = " + y1);
-			System.out.println("y2 = " + y2);
-			System.out.println("x = " + x);
+			//System.out.println("y1 = " + y1);
+			//System.out.println("y2 = " + y2);
+			//System.out.println("x = " + x);
 
 			if(y2-y1 >= 4) { 
 				y1--;
@@ -100,6 +117,48 @@ public class WaterDrawer {
 				y2++;
 			}
 			x = startX + 3 - depth;
+		}
+		
+		return mappy;
+	}
+	
+	public TileMap DrawMouthW() {
+		int mouthMiddle = ran.nextInt(mappy.getHeight()/3) + mappy.getHeight()/3;
+		// |||X||||
+		int startX = mappy.getWidth()-1;
+		while(!Utility.compareBufferedImages(mappy.getTile(startX, mouthMiddle), sand)) {
+			startX--;
+			System.out.println(startX);
+		}
+		int x = startX - 3;
+		int y1 = mouthMiddle;
+		int y2 = mouthMiddle+1;
+		int depth = 0;
+		
+		while(!Utility.compareBufferedImages(mappy.getTile(x, y1), water) || !Utility.compareBufferedImages(mappy.getTile(x, y2), water)) {
+			while(x < mappy.getWidth()) {
+				mappy.setTile(x, y1, water);
+				mappy.setTile(x, y2, water);
+				x++;
+			}
+			//System.out.println("y1 = " + y1);
+			//System.out.println("y2 = " + y2);
+			//System.out.println("x = " + x);
+
+			if(y2-y1 >= 4) { 
+				y1--;
+				y2++;
+				depth++;
+			}
+			else {
+				for(int i = startX - 3; i > startX - 11; i--) {
+					mappy.setTile(i, y1, water);
+					mappy.setTile(i, y2, water);
+				}
+				y1--;
+				y2++;
+			}
+			x = startX - 3 + depth;
 		}
 		
 		return mappy;

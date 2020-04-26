@@ -21,11 +21,6 @@ public class Ethan {
 		SandGrass.west(12, 19, 3, 20, mappy, sand); 
 		SandGrass.fill(20, 90, 12, 22, mappy, sand);
 		
-//		SandGrass.south(13, 13, 90, 90, mappy, sand);
-//		SandGrass.east(12, 13, 90, 90, mappy, sand);
-//		SandGrass.west(12, 13, 3, 20, mappy, sand);
-//		SandGrass.fill(20, 90, 12, 20, mappy, sand);
-
 		// ground grass layer
 		BufferedImage groundGrass = Utility.LoadImage("."+ File.separator + File.separator + "Resources" + File.separator + File.separator + "GroundGrass.png");
 		SandGrass.south(24, 88, 85, mappy, groundGrass);
@@ -33,10 +28,6 @@ public class Ethan {
 		SandGrass.west(12, 20, 10, 25, mappy, groundGrass);
 		SandGrass.fill(25, 83, 12, 23, mappy, groundGrass);
 		
-//		SandGrass.south(20, 20, 80, 80, mappy, groundGrass);
-//		SandGrass.east(12, 18, 70, 80, mappy, groundGrass);
-//		SandGrass.west(12, 18, 10, 40, mappy, groundGrass);
-//		SandGrass.fill(40, 70, 12, 30, mappy, groundGrass);
 
 		// Hills Layer 1
 		// 0 Random fill = everything hills
@@ -52,6 +43,7 @@ public class Ethan {
 		WaterDrawer wD = new WaterDrawer(mappy);
 		mappy = wD.DrawMouthS();
 		mappy = wD.DrawMouthE();
+		mappy = wD.DrawMouthW();
 		mappy.saveMap();
 	}
 
