@@ -41,9 +41,7 @@ public class Ethan {
 		//mappy.saveMap();
 	
 		WaterDrawer wD = new WaterDrawer(mappy);
-		mappy = wD.DrawMouthS();
-		mappy = wD.DrawMouthE();
-		mappy = wD.DrawMouthW();
+		mappy = wD.DrawMouths();
 		mappy.saveMap();
 	}
 

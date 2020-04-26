@@ -19,7 +19,7 @@ public class WaterDrawer {
 		mappy = m;
 	}
 	
-	public void DrawMouths() {
+	public TileMap DrawMouths() {
 		int mouthMiddle1 = ran.nextInt(mappy.getWidth()/3) + mappy.getWidth()/3;
 		DrawMouthS(mouthMiddle1);
 		
@@ -35,8 +35,9 @@ public class WaterDrawer {
 			}
 			DrawMouthS(mouthMiddle2);
 		}
+		return mappy;
 	}
-	public TileMap DrawMouthS(int mouthMiddle) {
+	public void DrawMouthS(int mouthMiddle) {
 		//mouthMiddle = ran.nextInt(mappy.getWidth()/3) + mappy.getWidth()/3;
 		// |||X||||
 		int startY = mappy.getHeight()-1;
@@ -74,13 +75,10 @@ public class WaterDrawer {
 			}
 			y = startY - 4 + depth;
 		}
-		
-		return mappy;
-		
-		
+				
 	}
 	
-	public TileMap DrawMouthE() {
+	public void DrawMouthE() {
 		int mouthMiddle = ran.nextInt(mappy.getHeight()/3) + mappy.getHeight()/3;
 		// |||X||||
 		int startX = 0;
@@ -118,11 +116,9 @@ public class WaterDrawer {
 			}
 			x = startX + 3 - depth;
 		}
-		
-		return mappy;
 	}
 	
-	public TileMap DrawMouthW() {
+	public void DrawMouthW() {
 		int mouthMiddle = ran.nextInt(mappy.getHeight()/3) + mappy.getHeight()/3;
 		// |||X||||
 		int startX = mappy.getWidth()-1;
@@ -160,9 +156,5 @@ public class WaterDrawer {
 			}
 			x = startX - 3 + depth;
 		}
-		
-		return mappy;
-		
-		
 	}
 }
