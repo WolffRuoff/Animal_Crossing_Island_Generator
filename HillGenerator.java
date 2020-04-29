@@ -63,7 +63,7 @@ public class HillGenerator {
 		for(int i = 0; i < iterations; i++) {
 			SmoothMap();
 		}
-		
+		DrawToMap();
 		Cleanup();
 		
 		DrawToMap();
@@ -71,8 +71,9 @@ public class HillGenerator {
 	}
 	
 	private void Cleanup() {
-		List<List<Coord>> grassRegions = GetRegions(1);
-		int grassThreshholdSize = 30;
+		//List<List<Coord>> grassRegions = GetRegions(0);
+		List<List<Coord>> grassRegions = mappy.GetRegions(grass, hillH);
+		int grassThreshholdSize = 15;
 		
 		for (List<Coord> grassRegion : grassRegions) {
 			if(grassRegion.size() < grassThreshholdSize) {
@@ -82,8 +83,9 @@ public class HillGenerator {
 			}
 		}
 		
-		List<List<Coord>> hillRegions = GetRegions(1);
-		int hillThreshholdSize = 30;
+		//List<List<Coord>> hillRegions = GetRegions(1);
+		List<List<Coord>> hillRegions = mappy.GetRegions(hillGrass, hillH);
+		int hillThreshholdSize = 20;
 		
 		for (List<Coord> hillRegion : hillRegions) {
 			if(hillRegion.size() < hillThreshholdSize) {
@@ -120,6 +122,7 @@ public class HillGenerator {
 		int tileType = hillNumbers[xStart][yStart];
 		
 		Queue<Coord> q = new LinkedList<Coord>();
+		q.add(new Coord(xStart,yStart));
 		flags [xStart][yStart] = 1;
 		
 		while(q.peek() != null) {
@@ -128,7 +131,7 @@ public class HillGenerator {
 			
 			for(int i = tile.getX() - 1; i <= tile.getX() + 1; i++) {
 				for(int j = tile.getY() - 1; j <= tile.getY() + 1; j++) {
-					if(i >= 0 && i < hillW && i >= 0 && i < hillH) {
+					if(i >= 0 && i < hillW && j >= 0 && j < hillH) {
 						if(i == tile.getX() || j == tile.getY()) {
 							if(flags[i][j] == 0 && hillNumbers[i][j] == tileType) {
 								flags[i][j] = 1;

@@ -1,5 +1,7 @@
 import java.io.File;
 import java.awt.image.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class WaterDrawer {
@@ -14,6 +16,8 @@ public class WaterDrawer {
 	
 	private Random ran = new Random();
 	
+	private List<Coord> mouth1 = new ArrayList<Coord> ();
+	private List<Coord> mouth2 = new ArrayList<Coord> ();
 	
 	public WaterDrawer(TileMap m) {
 		mappy = m;
@@ -21,7 +25,7 @@ public class WaterDrawer {
 	
 	public TileMap DrawMouths() {
 		int mouthMiddle1 = ran.nextInt(mappy.getWidth()/3) + mappy.getWidth()/3;
-		DrawMouthS(mouthMiddle1);
+		DrawMouthS(mouthMiddle1, false);
 		
 		int mouth2 = ran.nextInt(3);
 		if(mouth2==0)
@@ -30,14 +34,16 @@ public class WaterDrawer {
 			DrawMouthW();
 		else {
 			int mouthMiddle2 = ran.nextInt(mappy.getWidth()/3) + mappy.getWidth()/3;
+			
 			while(Math.abs(mouthMiddle1 - mouthMiddle2) < mappy.getWidth()/4) {
 				mouthMiddle2 = ran.nextInt(mappy.getWidth()/3) + mappy.getWidth()/3;
 			}
-			DrawMouthS(mouthMiddle2);
+			DrawMouthS(mouthMiddle2, true);
 		}
+		DrawPond();
 		return mappy;
 	}
-	public void DrawMouthS(int mouthMiddle) {
+	private void DrawMouthS(int mouthMiddle, boolean secondMouth) {
 		//mouthMiddle = ran.nextInt(mappy.getWidth()/3) + mappy.getWidth()/3;
 		// |||X||||
 		int startY = mappy.getHeight()-1;
@@ -49,6 +55,15 @@ public class WaterDrawer {
 		int x1 = mouthMiddle;
 		int x2 = mouthMiddle+1;
 		int depth = 0;
+		
+		if(!secondMouth) {
+			for(int i = x1-1; i <= x2 + 1; i++)
+				mouth1.add(new Coord(i,y));
+		}
+		else {
+			for(int i = x1-1; i <= x2 + 1; i++)
+				mouth2.add(new Coord(i,y));		
+		}
 		
 		while(!Utility.compareBufferedImages(mappy.getTile(x1, y), water) || !Utility.compareBufferedImages(mappy.getTile(x2, y), water)) {
 			while(y < mappy.getHeight()) {
@@ -78,7 +93,7 @@ public class WaterDrawer {
 				
 	}
 	
-	public void DrawMouthE() {
+	private void DrawMouthE() {
 		int mouthMiddle = ran.nextInt(mappy.getHeight()/3) + mappy.getHeight()/3;
 		// |||X||||
 		int startX = 0;
@@ -90,6 +105,9 @@ public class WaterDrawer {
 		int y1 = mouthMiddle;
 		int y2 = mouthMiddle+1;
 		int depth = 0;
+		
+		for(int i = y1-1; i <= y2 + 1; i++)
+			mouth1.add(new Coord(x,i));
 		
 		while(!Utility.compareBufferedImages(mappy.getTile(x, y1), water) || !Utility.compareBufferedImages(mappy.getTile(x, y2), water)) {
 			while(x > 0) {
@@ -118,7 +136,7 @@ public class WaterDrawer {
 		}
 	}
 	
-	public void DrawMouthW() {
+	private void DrawMouthW() {
 		int mouthMiddle = ran.nextInt(mappy.getHeight()/3) + mappy.getHeight()/3;
 		// |||X||||
 		int startX = mappy.getWidth()-1;
@@ -130,6 +148,9 @@ public class WaterDrawer {
 		int y1 = mouthMiddle;
 		int y2 = mouthMiddle+1;
 		int depth = 0;
+		
+		for(int i = y1-1; i <= y2 + 1; i++)
+			mouth1.add(new Coord(x,i));
 		
 		while(!Utility.compareBufferedImages(mappy.getTile(x, y1), water) || !Utility.compareBufferedImages(mappy.getTile(x, y2), water)) {
 			while(x < mappy.getWidth()) {
@@ -156,5 +177,40 @@ public class WaterDrawer {
 			}
 			x = startX - 3 + depth;
 		}
+	}
+	
+	private void DrawPond() {
+		List<List<Coord>> hill2Regions = mappy.GetRegions(hillGrass, mappy.getHeight());
+		int ranHill = ran.nextInt(hill2Regions.size());
+		//System.out.println("Size" + hill2Regions.size());
+		List<Coord> hill = hill2Regions.get(ranHill);
+		
+		int count=0;
+		while(hill.size() < 55) {
+			hill = hill2Regions.get(count);
+			count++;
+		}
+		
+		List<Coord> edgeTiles = new ArrayList<Coord>();
+		for(Coord tile : hill) {
+			for(int i = tile.getX()-6; i <= tile.getX()+7; i++) {
+				for(int j = tile.getY()-7; j <= tile.getY()+7; j++) {
+					if(i != tile.getX() && j != tile.getY()) {
+						if(!Utility.compareBufferedImages(mappy.getTile(i, j), hillGrass)){
+							edgeTiles.add(tile);
+						}
+					}
+				}
+			}
+		}
+		//System.out.println(edgeTiles.size());
+		for(Coord tile : hill) {
+			if(!edgeTiles.contains(tile)) {
+				//System.out.println("Drawings");
+				mappy.setTile(tile.getX(), tile.getY(), water);
+			}
+				
+		}
+
 	}
 }
