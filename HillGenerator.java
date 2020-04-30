@@ -19,6 +19,7 @@ public class HillGenerator {
 	private int fillPercent;
 	private int iterations = 4;
 	
+	//Constructor with a seed
 	public HillGenerator(TileMap m, int lay, int fp, String s){
 		mappy = m;
 		hillW = mappy.getWidth();
@@ -37,6 +38,8 @@ public class HillGenerator {
 			hillGrass = Utility.LoadImage("."+ File.separator + File.separator + "Resources" + File.separator + File.separator + "HillGrass2.png");
 		}
 	}
+	
+	//Constructor without a seed
 	public HillGenerator(TileMap m, int lay, int fp){
 		mappy = m;
 		hillW = mappy.getWidth();
@@ -57,6 +60,7 @@ public class HillGenerator {
 		}
 	}
 	
+	//The main function
 	public TileMap CreateHills() {
 		RandomFill();
 		DrawToMap();
@@ -70,10 +74,11 @@ public class HillGenerator {
 		return mappy;
 	}
 	
+	//Removes pieces of land smaller than the threshold size specified
 	private void Cleanup() {
-		//List<List<Coord>> grassRegions = GetRegions(0);
-		List<List<Coord>> grassRegions = mappy.GetRegions(grass, hillH);
-		int grassThreshholdSize = 15;
+		List<List<Coord>> grassRegions = GetRegions(0);
+		//List<List<Coord>> grassRegions = mappy.GetRegions(grass, hillH);
+		int grassThreshholdSize = 25;
 		
 		for (List<Coord> grassRegion : grassRegions) {
 			if(grassRegion.size() < grassThreshholdSize) {
@@ -83,9 +88,9 @@ public class HillGenerator {
 			}
 		}
 		
-		//List<List<Coord>> hillRegions = GetRegions(1);
-		List<List<Coord>> hillRegions = mappy.GetRegions(hillGrass, hillH);
-		int hillThreshholdSize = 20;
+		List<List<Coord>> hillRegions = GetRegions(1);
+		//List<List<Coord>> hillRegions = mappy.GetRegions(hillGrass, hillH);
+		int hillThreshholdSize = 25;
 		
 		for (List<Coord> hillRegion : hillRegions) {
 			if(hillRegion.size() < hillThreshholdSize) {
@@ -96,9 +101,11 @@ public class HillGenerator {
 		}
 	}
 	
+	//Grabs all regions of a specific tile type from hillNumbers and returns a list of a list of Coordinates
+	//Modified copy from TileMap.java so that it excludes edge tiles when cleaning
 	public List<List<Coord>> GetRegions(int tileType){
 		List<List<Coord>> regions = new ArrayList<List<Coord>>();
-		int[][] flags = new int[hillW][hillH];
+		int[][] flags = new int[hillW][hillH]; //Flag to show if a tiles been visited (1)
 		
 		for(int i = 0; i < hillW; i++) {
 			for(int j = 0; j < hillH; j++) {
@@ -114,14 +121,15 @@ public class HillGenerator {
 		}
 		return regions;
 	}
-	
+	//Grabs all tiles of a specific region from hillNumbers and returns a list of Coordinates
+	//Modified copy from TileMap.java so that it excludes edge tiles when cleaning
 	private List<Coord> GetRegionTiles(int xStart, int yStart){
 		List<Coord> tiles = new ArrayList<Coord> ();
 		int[][] flags = new int[hillW][hillH];
 		//Determine initial type
 		int tileType = hillNumbers[xStart][yStart];
 		
-		Queue<Coord> q = new LinkedList<Coord>();
+		Queue<Coord> q = new LinkedList<Coord>(); //Queue to add a tile's neighbors to to check
 		q.add(new Coord(xStart,yStart));
 		flags [xStart][yStart] = 1;
 		
@@ -132,7 +140,8 @@ public class HillGenerator {
 			for(int i = tile.getX() - 1; i <= tile.getX() + 1; i++) {
 				for(int j = tile.getY() - 1; j <= tile.getY() + 1; j++) {
 					if(i >= 0 && i < hillW && j >= 0 && j < hillH) {
-						if(i == tile.getX() || j == tile.getY()) {
+						if(i == tile.getX() || j == tile.getY()) { //Exclude diagonals
+							//If tile hasn't been visited and its the correct type flag it and add it to the queue
 							if(flags[i][j] == 0 && hillNumbers[i][j] == tileType) {
 								flags[i][j] = 1;
 								q.add(new Coord(i,j));
@@ -146,6 +155,7 @@ public class HillGenerator {
 		return tiles;
 	}
 	
+	//Randomly populates the upper half of the map with grass and hill
 	private void RandomFill() {
 		if(!useRandomSeed) {
 			ran.setSeed(Long.parseLong(seed));
@@ -157,8 +167,8 @@ public class HillGenerator {
 		 */
 		for(int i = 0; i < hillW; i++) {
 			for(int j = 0; j < hillH; j++) {
-				if(Utility.compareBufferedImages(mappy.getTile(i, j), grass)) { //Make sure the tiles lower
-				//if(mappy.getTile(i, j).equals(grass)) { //Make sure the tiles lower
+				if(Utility.compareBufferedImages(mappy.getTile(i, j), grass)) { //Make sure the tiles grass
+					//Checking it's neighbors and 4 above the tile to prevent any cliffs
 					if(!Utility.compareBufferedImages(mappy.getTile(i-1, j), grass) && !Utility.compareBufferedImages(mappy.getTile(i-1, j), hillGrass)) {
 						hillNumbers[i][j] = 1;
 					}
@@ -177,6 +187,7 @@ public class HillGenerator {
 					else if(layer != 1 && !Utility.compareBufferedImages(mappy.getTile(i, j-4), grass) && !Utility.compareBufferedImages(mappy.getTile(i, j-4), hillGrass) && !Utility.compareBufferedImages(mappy.getTile(i, j-4), ground)) {
 						hillNumbers[i][j] = 0;
 					}
+					//Discourage hills lower down to keep curves
 					else if(j >= hillH-(ran.nextInt(5)+3)) {
 						hillNumbers[i][j] = 1;
 					}
@@ -186,13 +197,11 @@ public class HillGenerator {
 						}
 						else {
 							hillNumbers[i][j] = 0;
-							//System.out.println("Success");
 						}
 					}
 				}
 				else {
 					hillNumbers[i][j] = 2; //Ignore these
-					//System.out.println("failure");
 				}
 			}
 		}
@@ -230,10 +239,6 @@ public class HillGenerator {
 						else if(wallTiles < 3)
 							hillNumbers[i][j] = 1;
 					}
-					//If j is within four of the bottom make it grass
-					//else if(j >= hillH-4) {
-					//	hillNumbers[i][j] = 1;
-					//}
 					//Otherwise perform smoothing
 					else {
 						int wallTiles = GetSurroundingCount(i,j);
@@ -247,15 +252,13 @@ public class HillGenerator {
 			}
 		}
 	}
-	
+	//Returns an int for the number of neighbors a tile has
 	private int GetSurroundingCount(int gridX, int gridY) {
 		int count = 0;
 		for(int nx = gridX - 1; nx <= gridX + 1; nx++) {
 			for(int ny = gridY - 1; ny <= gridY + 1; ny++) {
-				if(nx >= 0 && nx < hillW && ny >= 0 && ny < hillH) {
-					if(nx != gridX || ny != gridY) {
-						//System.out.println(nx);
-						//System.out.println(ny);
+				if(nx >= 0 && nx < hillW && ny >= 0 && ny < hillH) { //avoid out of bounds
+					if(nx != gridX || ny != gridY) { //Don't count the tile passed
 						if(hillNumbers[nx][ny] == 0)
 							count++;
 					}
@@ -268,6 +271,7 @@ public class HillGenerator {
 		return count;
 	}
 	
+	//Apply hillNumbers coordinates to the TileMap
 	private void DrawToMap() {
 		for(int i = 0; i < hillW; i++) {
 			for(int j = 0; j < hillH; j++) {
