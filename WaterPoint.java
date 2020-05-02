@@ -3,7 +3,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
+//Object that would've been used for the river creation had time allowed.
 public class WaterPoint {
 	private List<Coord> tiles;
 	private List<Coord> edgeTiles;

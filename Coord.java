@@ -1,4 +1,4 @@
-
+//An object used to store x and y coordinates
 public class Coord {
 	private int xTile;
 	private int yTile;
