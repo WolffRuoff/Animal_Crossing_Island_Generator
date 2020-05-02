@@ -42,10 +42,13 @@ public class Gwen {
 		HillGenerator hilly2 = new HillGenerator(mappy, 2, 60);
 		mappy = hilly2.CreateHills();
 		//mappy.saveMap();
+		
+		BufferedImage rock = Utility.LoadImage("."+ File.separator + File.separator + "Resources" + File.separator + File.separator + "Rocks.png");
+		Rocks.rock(mappy, rock);
 	
 		WaterDrawer wD = new WaterDrawer(mappy);
-		mappy = wD.DrawMouthS();
-		mappy = wD.DrawMouthE();		
+		mappy = wD.DrawMouths();
+		mappy.saveMap();		
 		
 		mappy.saveMap();		
 	}
