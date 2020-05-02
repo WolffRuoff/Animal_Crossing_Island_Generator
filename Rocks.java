@@ -1,11 +1,15 @@
 import java.awt.image.*;
 import java.util.Random;
 
+// places rocks on the vertical beaches and along the top
+
 public class Rocks {
 	
 	Random rand = new Random();
 	int random;
 	
+	
+	// main function
 	public void rock(TileMap mappy, BufferedImage tile) {
 		random = rand.nextInt(10);
 		
@@ -14,6 +18,7 @@ public class Rocks {
 		topRock(mappy, tile);
 	}
 	
+	// generates rocks along the top of the island
 	public void topRock(TileMap mappy, BufferedImage tile) {
 		int rockSize, chance;
 		for (int x = 9; x < mappy.getWidth() - 15; x++) {
@@ -29,10 +34,11 @@ public class Rocks {
 		}
 	}		
 	
+	// generates rock on the vertical beaches starting at the start parameter
 	public void borderRock(int start, TileMap mappy, BufferedImage tile) {
 		int rockSize, placement, chance;
 		for (int y = 15; y < mappy.getHeight() - 20; y++) {
-			chance = rand.nextInt(16);
+			chance = rand.nextInt(18);
 			if (chance == 0) { 
 				rockSize = rand.nextInt(4) + 3;
 				placement = rand.nextInt(7) - 5;
