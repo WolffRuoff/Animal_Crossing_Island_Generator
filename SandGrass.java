@@ -12,7 +12,7 @@ public class SandGrass {
 		for (int x = x1; x < (mappy.getWidth() - x1); x++) {
 			random = rand.nextDouble();
 			perlin = PerlinNoise.noise(x, random);
-			System.out.println(perlin);
+			//System.out.println(perlin);
 			
 			if (perlin < -0.3) {
 				size = size + 1;

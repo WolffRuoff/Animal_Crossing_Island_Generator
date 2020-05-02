@@ -64,33 +64,39 @@ public class HillGenerator {
 	public TileMap CreateHills() {
 		RandomFill();
 		DrawToMap();
+		//mappy.saveMap("RandomFill");
 		for(int i = 0; i < iterations; i++) {
 			SmoothMap();
 		}
 		DrawToMap();
-		Cleanup();
+		//mappy.saveMap("Smoothed");
 		
+		Cleanup();
 		DrawToMap();
+		//mappy.saveMap("Cleaned");
+		
 		return mappy;
 	}
 	
 	//Removes pieces of land smaller than the threshold size specified
 	private void Cleanup() {
-		List<List<Coord>> grassRegions = GetRegions(0);
-		//List<List<Coord>> grassRegions = mappy.GetRegions(grass, hillH);
-		int grassThreshholdSize = 25;
+		if(layer==1) {
+			List<List<Coord>> grassRegions = GetRegions(1);
+			//List<List<Coord>> grassRegions = mappy.GetRegions(grass, hillH);
+			int grassThreshholdSize = 50;
 		
-		for (List<Coord> grassRegion : grassRegions) {
-			if(grassRegion.size() < grassThreshholdSize) {
-				for(Coord tile : grassRegion) {
-					hillNumbers[tile.getX()][tile.getY()] = 0;
+			for (List<Coord> grassRegion : grassRegions) {
+				if(grassRegion.size() < grassThreshholdSize) {
+					for(Coord tile : grassRegion) {
+						hillNumbers[tile.getX()][tile.getY()] = 0;
+					}
 				}
 			}
 		}
 		
-		List<List<Coord>> hillRegions = GetRegions(1);
+		List<List<Coord>> hillRegions = GetRegions(0);
 		//List<List<Coord>> hillRegions = mappy.GetRegions(hillGrass, hillH);
-		int hillThreshholdSize = 25;
+		int hillThreshholdSize = 30;
 		
 		for (List<Coord> hillRegion : hillRegions) {
 			if(hillRegion.size() < hillThreshholdSize) {

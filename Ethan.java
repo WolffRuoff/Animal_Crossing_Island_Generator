@@ -3,6 +3,7 @@ import java.io.File;
 public class Ethan {
 
 	static SandGrass SandGrass = new SandGrass();
+	static Rocks Rocks = new Rocks();
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -36,12 +37,17 @@ public class Ethan {
 		mappy = hilly.CreateHills();
 		
 		// Hills Layer 2
-		HillGenerator hilly2 = new HillGenerator(mappy, 2, 60);
+		HillGenerator hilly2 = new HillGenerator(mappy, 2, 65);
 		mappy = hilly2.CreateHills();
-		//mappy.saveMap();
 	
+		
+		BufferedImage rock = Utility.LoadImage("."+ File.separator + File.separator + "Resources" + File.separator + File.separator + "Rocks.png");
+		Rocks.rock(mappy, rock);
+		
 		WaterDrawer wD = new WaterDrawer(mappy);
 		mappy = wD.DrawMouths();
+
+		
 		mappy.saveMap();
 	}
 
