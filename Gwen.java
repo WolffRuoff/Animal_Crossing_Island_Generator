@@ -4,6 +4,7 @@ import java.io.File;
 public class Gwen {
 	
 	static SandGrass SandGrass = new SandGrass();
+	static Rocks Rocks = new Rocks();
 	
 	public static void main(String[] args) {
 		System.out.println("Fuck This!!!!!");
@@ -48,7 +49,7 @@ public class Gwen {
 	
 		WaterDrawer wD = new WaterDrawer(mappy);
 		mappy = wD.DrawMouths();
-		mappy.saveMap();		
+		//mappy.saveMap();		
 		
 		mappy.saveMap();		
 	}

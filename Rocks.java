@@ -9,7 +9,6 @@ public class Rocks {
 	public void rock(TileMap mappy, BufferedImage tile) {
 		random = rand.nextInt(10);
 		
-		
 		borderRock(15, mappy, tile);
 		borderRock(95, mappy, tile);
 		topRock(mappy, tile);
